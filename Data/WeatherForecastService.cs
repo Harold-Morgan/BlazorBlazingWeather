@@ -30,13 +30,13 @@ namespace BlazorBlazingWeather.Data
             }).ToArray());
         }
 
-        public WeatherData GetWeatherData()
+        public async Task<WeatherData> GetWeatherData()
         {
             string key = Configuration["OpenWeatherApiKey"];
             Forecast forecast = new Forecast();
             WeatherData data = null;
-            Task getWeather = Task.Run(async () => { data = await forecast.GetWeatherDataByZipAsync(key, "32927", "us", WeatherUnits.Metric); });
-            getWeather.Wait();
+            data = await forecast.GetWeatherDataByZipAsync(key, "32927", "us", WeatherUnits.Metric);
+            //getWeather.Wait();
 
             return data;
         }
