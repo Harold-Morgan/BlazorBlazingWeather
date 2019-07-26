@@ -1,5 +1,6 @@
 @page "/fetchdata"
 @using BlazorBlazingWeather.Data
+@using OpenWeatherMap.Standard
 @inject WeatherForecastService ForecastService
 
 <h1>Weather forecast</h1>
@@ -35,11 +36,18 @@ else
     </table>
 }
 
+<p>@WeatherData.Coordinates.Latitude</p>
+<p>@WeatherData.Coordinates.Longitude</p>
+
 @code {
+    WeatherData WeatherData;
     WeatherForecast[] forecasts;
 
     protected override async Task OnInitAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        WeatherData = await ForecastService.GetWeatherData();
+
+        Task.WaitAll();
     }
 }

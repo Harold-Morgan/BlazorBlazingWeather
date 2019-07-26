@@ -35,8 +35,8 @@ namespace BlazorBlazingWeather.Data
             string key = Configuration["OpenWeatherApiKey"];
             Forecast forecast = new Forecast();
             WeatherData data = null;
-            data = await forecast.GetWeatherDataByZipAsync(key, "32927", "us", WeatherUnits.Metric);
-            //getWeather.Wait();
+            Task getWeatherCityWOCountry = Task.Run(async () => { data = await forecast.GetWeatherDataByCityNameAsync(key, "moscow", "ru"); });
+            getWeatherCityWOCountry.Wait();
 
             return data;
         }
