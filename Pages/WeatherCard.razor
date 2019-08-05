@@ -1,4 +1,7 @@
 @page "/weathercard"
+@using BlazorBlazingWeather.Data
+@using OpenWeatherMap.Standard
+@inject WeatherForecastService ForecastService
 
 <div class="container">
     <div class="row">
@@ -10,11 +13,11 @@
                             <a href="javascript:;"><span class="lnr lnr-chevron-left"></span></a>
                             <a href="javascript:;"><span class="lnr lnr-cog"></span></a>
                         </div>
-                        <h1 class="heading">Clear night</h1>
-                        <h3 class="location">Dhaka, Bangladesh</h3>
+                        <h1 class="heading">@DateTime.Now</h1>
+                        <h3 class="location">@WeatherData.Name</h3>
                         <p class="temp">
-                            <span class="temp-value">20</span>
-                            <span class="deg">0</span>
+                            <span class="temp-value">@Math.Floor(WeatherData.WeatherDayInfo.Temperature)</span>
+                            <span class="deg">@(Convert.ToInt32((Math.Ceiling(WeatherData.WeatherDayInfo.Temperature) - WeatherData.WeatherDayInfo.Temperature) * 100))</span>
                             <a href="javascript:;"><span class="temp-type">C</span></a>
                         </p>
                     </div>
@@ -83,5 +86,13 @@
 </div>
 
 @code {
+    WeatherData WeatherData;
+    private static System.Timers.Timer aTimer = new System.Timers.Timer(1000);
 
+    protected override async Task OnInitAsync()
+    {
+        WeatherData = await ForecastService.GetWeatherData();
+        Task.WaitAll();
+        aTimer.Start();
+    }
 }

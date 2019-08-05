@@ -34,10 +34,10 @@ namespace BlazorBlazingWeather.Data
         {
             string key = Configuration["OpenWeatherApiKey"];
             Forecast forecast = new Forecast();
-
+            
             WeatherData data = null;
             //If I call this method asynchronously it'll return null. Problem on the package side?
-            Task getWeatherCityWOCountry = Task.Run(async () => { data = await forecast.GetWeatherDataByCityNameAsync(key, "moscow", "ru"); });
+            Task getWeatherCityWOCountry = Task.Run(async () => { data = await forecast.GetWeatherDataByCityNameAsync(key, "moscow", "ru", WeatherUnits.Metric); });
             getWeatherCityWOCountry.Wait();
 
             return data;
